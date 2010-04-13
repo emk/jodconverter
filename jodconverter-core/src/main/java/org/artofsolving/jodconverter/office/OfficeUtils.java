@@ -77,8 +77,8 @@ public class OfficeUtils {
         } else if (PlatformUtils.isMac()) {
             return new File("/Applications/OpenOffice.org.app/Contents");
         } else {
-            // Linux or Solaris
-            return new File("/opt/openoffice.org3");
+            // Ubuntu.
+            return new File("/usr/lib/openoffice");
         }
     }
 
