@@ -37,6 +37,7 @@ import org.artofsolving.jodconverter.document.DocumentFormatRegistry;
 import org.artofsolving.jodconverter.document.JsonDocumentFormatRegistry;
 import org.artofsolving.jodconverter.office.OfficeManager;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
+import org.artofsolving.jodconverter.office.ExternalOfficeManagerConfiguration;
 import org.json.JSONException;
 
 /**
@@ -51,6 +52,7 @@ public class Convert {
     private static final Option OPTION_OUTPUT_FORMAT = new Option("f", "output-format", true, "output format (e.g. pdf)");
     private static final Option OPTION_PORT = new Option("p", "port", true, "office socket port (optional; defaults to 8100)");
     private static final Option OPTION_REGISTRY = new Option("r", "registry", true, "document formats registry configuration file (optional)");
+    private static final Option OPTION_EXTERNAL = new Option("e", "external", false, "use external Open Office process");
     private static final Options OPTIONS = initOptions();
 
     private static final int DEFAULT_OFFICE_PORT = 8100;
@@ -60,6 +62,7 @@ public class Convert {
         options.addOption(OPTION_OUTPUT_FORMAT);
         options.addOption(OPTION_PORT);
         options.addOption(OPTION_REGISTRY);
+        options.addOption(OPTION_EXTERNAL);
         return options;
     }
 
@@ -93,9 +96,15 @@ public class Convert {
         } else {
             registry = new DefaultDocumentFormatRegistry();
         }
-        
-        OfficeManager officeManager = new DefaultOfficeManagerConfiguration().setPortNumber(port).buildOfficeManager();
+
+        OfficeManager officeManager;
+        if (commandLine.hasOption(OPTION_EXTERNAL.getOpt())) {
+            officeManager = new ExternalOfficeManagerConfiguration().setPortNumber(port).buildOfficeManager();
+        } else {
+            officeManager = new DefaultOfficeManagerConfiguration().setPortNumber(port).buildOfficeManager();
+        }
         officeManager.start();
+
         OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager, registry);
         try {
             if (outputFormat == null) {
