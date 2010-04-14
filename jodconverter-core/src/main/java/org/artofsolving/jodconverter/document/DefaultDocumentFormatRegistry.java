@@ -29,9 +29,9 @@ import java.util.HashMap;
 
 public class DefaultDocumentFormatRegistry extends SimpleDocumentFormatRegistry {
 
-	public DefaultDocumentFormatRegistry() {
-            this(true);
-        }
+    public DefaultDocumentFormatRegistry() {
+        this(true);
+    }
 
 	public DefaultDocumentFormatRegistry(boolean enablePdfAByDefault) {
         System.out.println("Setting PDF/A");
