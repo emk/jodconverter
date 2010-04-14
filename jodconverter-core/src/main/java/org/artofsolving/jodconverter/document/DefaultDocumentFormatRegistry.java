@@ -34,8 +34,6 @@ public class DefaultDocumentFormatRegistry extends SimpleDocumentFormatRegistry 
     }
 
 	public DefaultDocumentFormatRegistry(boolean enablePdfAByDefault) {
-        System.out.println("Setting PDF/A");
-
 		DocumentFormat pdf = new DocumentFormat("Portable Document Format", "pdf", "application/pdf");
         pdf.setStoreProperties(DocumentFamily.TEXT, createPdfType(enablePdfAByDefault, "writer_pdf_Export"));
         pdf.setStoreProperties(DocumentFamily.SPREADSHEET, createPdfType(enablePdfAByDefault, "calc_pdf_Export"));
